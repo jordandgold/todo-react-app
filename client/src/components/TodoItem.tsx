@@ -21,7 +21,9 @@ const Todo: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
           onChange={() => updateTodo(todo)}
         />
         <Box flex={1} paddingX={4}>
-          <Text>{todo.name}</Text>
+          <Text fontWeight="bold" marginTop="-0.3em" marginBottom={1}>
+            {todo.name}
+          </Text>
           <Text>{todo.description}</Text>
         </Box>
         <Button
