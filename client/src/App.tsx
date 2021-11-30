@@ -2,6 +2,14 @@ import React, { useEffect, useState } from "react";
 import TodoItem from "./components/TodoItem";
 import AddTodo from "./components/AddTodo";
 import { getTodos, addTodo, updateTodo, deleteTodo } from "./Api";
+import {
+  ChakraProvider,
+  Heading,
+  SimpleGrid,
+  Box,
+  Container,
+  VStack,
+} from "@chakra-ui/react";
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<ITodo[]>([]);
@@ -51,18 +59,32 @@ const App: React.FC = () => {
   };
 
   return (
-    <main className="App">
-      <h1>My Todos</h1>
-      <AddTodo saveTodo={handleSaveTodo} />
-      {todos.map((todo: ITodo) => (
-        <TodoItem
-          key={todo._id}
-          updateTodo={handleUpdateTodo}
-          deleteTodo={handleDeleteTodo}
-          todo={todo}
-        />
-      ))}
-    </main>
+    <ChakraProvider>
+      <main className="App">
+        <Container maxW="container.xl" paddingTop={10}>
+          <Heading as="h1" marginBottom={6}>
+            My Todos
+          </Heading>
+          <SimpleGrid columns={2} spacing={10}>
+            <Box flex="1">
+              <AddTodo saveTodo={handleSaveTodo} />
+            </Box>
+            <Box flex="1">
+              <VStack spacing={6} alignItems="start">
+                {todos.map((todo: ITodo) => (
+                  <TodoItem
+                    key={todo._id}
+                    updateTodo={handleUpdateTodo}
+                    deleteTodo={handleDeleteTodo}
+                    todo={todo}
+                  />
+                ))}
+              </VStack>
+            </Box>
+          </SimpleGrid>
+        </Container>
+      </main>
+    </ChakraProvider>
   );
 };
 

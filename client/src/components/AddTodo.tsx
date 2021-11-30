@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { VStack, Box, Input, Button } from "@chakra-ui/react";
 
 type Props = {
   saveTodo: (e: React.FormEvent, formData: ITodo | any) => void;
@@ -15,18 +16,26 @@ const AddTodo: React.FC<Props> = ({ saveTodo }) => {
   };
 
   return (
-    <form className="Form" onSubmit={(e) => saveTodo(e, formData)}>
-      <div>
-        <div>
+    <form className="Form">
+      <VStack spacing={4} align="stretch">
+        <Box>
           <label htmlFor="name">Name</label>
-          <input onChange={handleForm} type="text" id="name" />
-        </div>
-        <div>
+          <Input onChange={handleForm} type="text" id="name" />
+        </Box>
+        <Box>
           <label htmlFor="description">Description</label>
-          <input onChange={handleForm} type="text" id="description" />
-        </div>
-      </div>
-      <button disabled={formData === undefined ? true : false}>Add Todo</button>
+          <Input onChange={handleForm} type="text" id="description" />
+        </Box>
+        <Box>
+          <Button
+            colorScheme="blue"
+            disabled={formData === undefined ? true : false}
+            onClick={(e) => saveTodo(e, formData)}
+          >
+            Add Todo
+          </Button>
+        </Box>
+      </VStack>
     </form>
   );
 };

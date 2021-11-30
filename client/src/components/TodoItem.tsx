@@ -1,3 +1,5 @@
+import { Button } from "@chakra-ui/button";
+import { Box, Text, Stack, VStack } from "@chakra-ui/layout";
 import React from "react";
 
 type Props = TodoProps & {
@@ -8,26 +10,24 @@ type Props = TodoProps & {
 const Todo: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
   const checkTodo: string = todo.status ? `line-through` : "";
   return (
-    <div className="Card">
-      <div className="Card--text">
-        <h1 className={checkTodo}>{todo.name}</h1>
-        <span className={checkTodo}>{todo.description}</span>
-      </div>
-      <div className="Card--button">
-        <button
-          onClick={() => updateTodo(todo)}
-          className={todo.status ? `hide-button` : "Card--button__done"}
-        >
-          Complete
-        </button>
-        <button
-          onClick={() => deleteTodo(todo._id)}
-          className="Card--button__delete"
-        >
-          Delete
-        </button>
-      </div>
-    </div>
+    <Box width="100%" borderWidth="1px" borderRadius="lg" padding={6}>
+      <VStack>
+        <Text>{todo.name}</Text>
+        <Text>{todo.description}</Text>
+        <Stack direction="row" spacing={4} align="center">
+          <Button onClick={() => updateTodo(todo)} colorScheme="blue" size="sm">
+            Complete
+          </Button>
+          <Button
+            onClick={() => deleteTodo(todo._id)}
+            colorScheme="red"
+            size="sm"
+          >
+            Delete
+          </Button>
+        </Stack>
+      </VStack>
+    </Box>
   );
 };
 
