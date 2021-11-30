@@ -8,7 +8,8 @@ import {
   SimpleGrid,
   Box,
   Container,
-  VStack,
+  Stack,
+  StackDivider,
 } from "@chakra-ui/react";
 
 const App: React.FC = () => {
@@ -70,7 +71,10 @@ const App: React.FC = () => {
               <AddTodo saveTodo={handleSaveTodo} />
             </Box>
             <Box flex="1">
-              <VStack spacing={6} alignItems="start">
+              <Stack
+                divider={<StackDivider borderColor="gray.200" />}
+                spacing={6}
+              >
                 {todos.map((todo: ITodo) => (
                   <TodoItem
                     key={todo._id}
@@ -79,7 +83,7 @@ const App: React.FC = () => {
                     todo={todo}
                   />
                 ))}
-              </VStack>
+              </Stack>
             </Box>
           </SimpleGrid>
         </Container>

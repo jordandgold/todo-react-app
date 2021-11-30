@@ -1,5 +1,6 @@
 import { Button } from "@chakra-ui/button";
-import { Box, Text, Stack, VStack } from "@chakra-ui/layout";
+import { Checkbox } from "@chakra-ui/checkbox";
+import { Box, Text, Flex } from "@chakra-ui/layout";
 import React from "react";
 
 type Props = TodoProps & {
@@ -8,25 +9,29 @@ type Props = TodoProps & {
 };
 
 const Todo: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
-  const checkTodo: string = todo.status ? `line-through` : "";
+  const isCompleted = todo.status;
+
   return (
-    <Box width="100%" borderWidth="1px" borderRadius="lg" padding={6}>
-      <VStack>
-        <Text>{todo.name}</Text>
-        <Text>{todo.description}</Text>
-        <Stack direction="row" spacing={4} align="center">
-          <Button onClick={() => updateTodo(todo)} colorScheme="blue" size="sm">
-            Complete
-          </Button>
-          <Button
-            onClick={() => deleteTodo(todo._id)}
-            colorScheme="red"
-            size="sm"
-          >
-            Delete
-          </Button>
-        </Stack>
-      </VStack>
+    <Box width="100%">
+      <Flex direction="row" alignItems="start">
+        <Checkbox
+          size="lg"
+          colorScheme="gray"
+          defaultIsChecked={isCompleted}
+          onChange={() => updateTodo(todo)}
+        />
+        <Box flex={1} paddingX={4}>
+          <Text>{todo.name}</Text>
+          <Text>{todo.description}</Text>
+        </Box>
+        <Button
+          onClick={() => deleteTodo(todo._id)}
+          colorScheme="red"
+          size="sm"
+        >
+          Delete
+        </Button>
+      </Flex>
     </Box>
   );
 };
