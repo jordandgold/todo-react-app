@@ -13,7 +13,11 @@ const Todo: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
 
   return (
     <Box width="100%">
-      <Flex direction="row" alignItems="start">
+      <Flex
+        direction="row"
+        alignItems="start"
+        className={isCompleted ? "is-completed" : ""}
+      >
         <Checkbox
           size="lg"
           colorScheme="gray"

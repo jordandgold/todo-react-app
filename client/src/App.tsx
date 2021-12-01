@@ -67,26 +67,17 @@ const App: React.FC = () => {
           <Heading as="h1" marginBottom={6}>
             My Todos
           </Heading>
-          <SimpleGrid columns={2} spacing={10}>
-            <Box flex="1">
-              <AddTodo saveTodo={handleSaveTodo} />
-            </Box>
-            <Box flex="1">
-              <Stack
-                divider={<StackDivider borderColor="gray.200" />}
-                spacing={6}
-              >
-                {todos.map((todo: ITodo) => (
-                  <TodoItem
-                    key={todo._id}
-                    updateTodo={handleUpdateTodo}
-                    deleteTodo={handleDeleteTodo}
-                    todo={todo}
-                  />
-                ))}
-              </Stack>
-            </Box>
-          </SimpleGrid>
+          <Stack divider={<StackDivider borderColor="gray.200" />} spacing={6}>
+            <AddTodo saveTodo={handleSaveTodo} />
+            {todos.map((todo: ITodo) => (
+              <TodoItem
+                key={todo._id}
+                updateTodo={handleUpdateTodo}
+                deleteTodo={handleDeleteTodo}
+                todo={todo}
+              />
+            ))}
+          </Stack>
         </Container>
       </main>
     </ChakraProvider>
