@@ -8,12 +8,9 @@ import {
 
 const router: Router = Router();
 
-router.get("/todos", getTodos);
-
-router.post("/add-todo", addTodo);
-
-router.put("/edit-todo/:id", updateTodo);
-
-router.delete("/delete-todo/:id", deleteTodo);
+router.get("/todos/get", getTodos);
+router.post("/todos/add", addTodo);
+router.put("/todos/edit/:id", updateTodo);
+router.delete("/todos/delete/:id", deleteTodo);
 
 export default router;

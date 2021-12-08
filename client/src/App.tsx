@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import TodoItem from "./components/TodoItem";
 import AddTodo from "./components/AddTodo";
-import { getTodos, addTodo, updateTodo, deleteTodo } from "./Api";
+import Api from "./Api";
 import {
   ChakraProvider,
   Heading,
-  SimpleGrid,
-  Box,
   Container,
   Stack,
   StackDivider,
@@ -20,7 +18,7 @@ const App: React.FC = () => {
   }, []);
 
   const fetchTodos = (): void => {
-    getTodos()
+    Api.getTodos()
       .then(({ data: { todos } }: ITodo[] | any) => setTodos(todos))
       .catch((err: Error) => console.log(err));
   };
@@ -28,7 +26,7 @@ const App: React.FC = () => {
   const handleSaveTodo = (event: React.FormEvent, formData: ITodo): void => {
     event.preventDefault();
 
-    addTodo(formData)
+    Api.addTodo(formData)
       .then(({ status, data }) => {
         if (status !== 201) {
           throw new Error("Error! Todo not saved");
@@ -39,7 +37,7 @@ const App: React.FC = () => {
   };
 
   const handleUpdateTodo = (todo: ITodo): void => {
-    updateTodo(todo)
+    Api.updateTodo(todo)
       .then(({ status, data }) => {
         if (status !== 200) {
           throw new Error("Error! Todo not updated");
@@ -50,7 +48,7 @@ const App: React.FC = () => {
   };
 
   const handleDeleteTodo = (_id: string): void => {
-    deleteTodo(_id)
+    Api.deleteTodo(_id)
       .then(({ status, data }) => {
         if (status !== 200) {
           throw new Error("Error! Todo not deleted");
