@@ -5,7 +5,8 @@ import Api from "./Api";
 import {
   ChakraProvider,
   Heading,
-  Container,
+  Box,
+  Flex,
   Stack,
   StackDivider,
 } from "@chakra-ui/react";
@@ -61,22 +62,36 @@ const App: React.FC = () => {
   return (
     <ChakraProvider>
       <main className="App">
-        <Container maxW="container.xl" paddingTop={10}>
-          <Heading as="h1" marginBottom={6}>
-            My Todos
-          </Heading>
-          <Stack divider={<StackDivider borderColor="gray.200" />} spacing={6}>
-            <AddTodo saveTodo={handleSaveTodo} />
-            {todos.map((todo: ITodo) => (
-              <TodoItem
-                key={todo._id}
-                updateTodo={handleUpdateTodo}
-                deleteTodo={handleDeleteTodo}
-                todo={todo}
-              />
-            ))}
-          </Stack>
-        </Container>
+        <Flex minHeight="100%">
+          <Box
+            w="400px"
+            borderEnd="1px"
+            borderColor="gray.200"
+            height="100vh"
+            padding={4}
+          >
+            projects
+          </Box>
+          <Box flex="1" padding={6}>
+            <Heading as="h1" marginBottom={6}>
+              My Todos
+            </Heading>
+            <Stack
+              divider={<StackDivider borderColor="gray.200" />}
+              spacing={4}
+            >
+              <AddTodo saveTodo={handleSaveTodo} />
+              {todos.map((todo: ITodo) => (
+                <TodoItem
+                  key={todo._id}
+                  updateTodo={handleUpdateTodo}
+                  deleteTodo={handleDeleteTodo}
+                  todo={todo}
+                />
+              ))}
+            </Stack>
+          </Box>
+        </Flex>
       </main>
     </ChakraProvider>
   );
