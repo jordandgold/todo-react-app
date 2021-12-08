@@ -1,11 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 
-const baseUrl: string = "http://localhost:4000";
-
 export const getTodos = async (): Promise<AxiosResponse<ApiDataType>> => {
   try {
     const todos: AxiosResponse<ApiDataType> = await axios.get(
-      baseUrl + "/todos/get"
+      process.env.BASE_API_URL + "/todos/get"
     );
     return todos;
   } catch (error) {
@@ -23,7 +21,7 @@ export const addTodo = async (
       status: false,
     };
     const saveTodo: AxiosResponse<ApiDataType> = await axios.post(
-      baseUrl + "/todos/add",
+      process.env.BASE_API_URL + "/todos/add",
       todo
     );
     return saveTodo;
@@ -40,7 +38,7 @@ export const updateTodo = async (
       status: !todo.status,
     };
     const updatedTodo: AxiosResponse<ApiDataType> = await axios.put(
-      `${baseUrl}/todos/edit/${todo._id}`,
+      `${process.env.BASE_API_URL}/todos/edit/${todo._id}`,
       todoUpdate
     );
     return updatedTodo;
@@ -54,7 +52,7 @@ export const deleteTodo = async (
 ): Promise<AxiosResponse<ApiDataType>> => {
   try {
     const deletedTodo: AxiosResponse<ApiDataType> = await axios.delete(
-      `${baseUrl}/todos/delete/${_id}`
+      `${process.env.BASE_API_URL}/todos/delete/${_id}`
     );
     return deletedTodo;
   } catch (error) {
