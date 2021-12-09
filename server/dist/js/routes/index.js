@@ -11,4 +11,6 @@ router.put("/todos/edit/:id", todos_1.updateTodo);
 router.delete("/todos/delete/:id", todos_1.deleteTodo);
 // projects
 router.get("/projects/get", projects_1.getProjects);
+router.post("/projects/add", projects_1.addProject);
+router.delete("/projects/delete/:id", projects_1.deleteProject);
 exports.default = router;

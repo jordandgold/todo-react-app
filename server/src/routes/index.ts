@@ -5,7 +5,11 @@ import {
   updateTodo,
   deleteTodo,
 } from "../controllers/todos";
-import { getProjects } from "../controllers/projects";
+import {
+  getProjects,
+  addProject,
+  deleteProject,
+} from "../controllers/projects";
 
 const router: Router = Router();
 
@@ -17,5 +21,7 @@ router.delete("/todos/delete/:id", deleteTodo);
 
 // projects
 router.get("/projects/get", getProjects);
+router.post("/projects/add", addProject);
+router.delete("/projects/delete/:id", deleteProject);
 
 export default router;

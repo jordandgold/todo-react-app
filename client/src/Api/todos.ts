@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 
-export const getTodos = async (): Promise<AxiosResponse<ApiDataType>> => {
+export const getTodos = async (): Promise<AxiosResponse<TodoApiDataType>> => {
   try {
-    const todos: AxiosResponse<ApiDataType> = await axios.get(
+    const todos: AxiosResponse<TodoApiDataType> = await axios.get(
       process.env.REACT_APP_API_BASE_URL + "/todos/get"
     );
     return todos;
@@ -13,14 +13,14 @@ export const getTodos = async (): Promise<AxiosResponse<ApiDataType>> => {
 
 export const addTodo = async (
   formData: ITodo
-): Promise<AxiosResponse<ApiDataType>> => {
+): Promise<AxiosResponse<TodoApiDataType>> => {
   try {
     const todo: Omit<ITodo, "_id"> = {
       name: formData.name,
       description: formData.description,
       status: false,
     };
-    const saveTodo: AxiosResponse<ApiDataType> = await axios.post(
+    const saveTodo: AxiosResponse<TodoApiDataType> = await axios.post(
       process.env.REACT_APP_API_BASE_URL + "/todos/add",
       todo
     );
@@ -32,12 +32,12 @@ export const addTodo = async (
 
 export const updateTodo = async (
   todo: ITodo
-): Promise<AxiosResponse<ApiDataType>> => {
+): Promise<AxiosResponse<TodoApiDataType>> => {
   try {
     const todoUpdate: Pick<ITodo, "status"> = {
       status: !todo.status,
     };
-    const updatedTodo: AxiosResponse<ApiDataType> = await axios.put(
+    const updatedTodo: AxiosResponse<TodoApiDataType> = await axios.put(
       `${process.env.REACT_APP_API_BASE_URL}/todos/edit/${todo._id}`,
       todoUpdate
     );
@@ -49,9 +49,9 @@ export const updateTodo = async (
 
 export const deleteTodo = async (
   _id: string
-): Promise<AxiosResponse<ApiDataType>> => {
+): Promise<AxiosResponse<TodoApiDataType>> => {
   try {
-    const deletedTodo: AxiosResponse<ApiDataType> = await axios.delete(
+    const deletedTodo: AxiosResponse<TodoApiDataType> = await axios.delete(
       `${process.env.REACT_APP_API_BASE_URL}/todos/delete/${_id}`
     );
     return deletedTodo;

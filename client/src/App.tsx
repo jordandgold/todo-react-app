@@ -10,13 +10,52 @@ import {
   Stack,
   StackDivider,
 } from "@chakra-ui/react";
+import AddProject from "./components/AddProject";
+import ProjectsList from "./components/ProjectsList";
+import ProjectItem from "./components/ProjectItem";
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<ITodo[]>([]);
+  const [projects, setProjects] = useState<IProject[]>([]);
+  // const [currentProject, setCurrentProject] = useState<IProject | null>(null);
 
   useEffect(() => {
+    fetchProjects();
     fetchTodos();
   }, []);
+
+  const fetchProjects = (): void => {
+    Api.getProjects()
+      .then(({ data: { projects } }: IProject[] | any) => setProjects(projects))
+      .catch((err: Error) => console.log(err));
+  };
+
+  const handleSaveProject = (
+    event: React.FormEvent,
+    formData: IProject
+  ): void => {
+    event.preventDefault();
+
+    Api.addProject(formData)
+      .then(({ status, data }) => {
+        if (status !== 201) {
+          throw new Error("Error! Project not saved");
+        }
+        setProjects(data.projects);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDeleteProject = (_id: string): void => {
+    Api.deleteProject(_id)
+      .then(({ status, data }) => {
+        if (status !== 200) {
+          throw new Error("Error! Project not deleted");
+        }
+        setProjects(data.projects);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const fetchTodos = (): void => {
     Api.getTodos()
@@ -70,7 +109,14 @@ const App: React.FC = () => {
             height="100vh"
             padding={4}
           >
-            projects
+            <AddProject saveProject={handleSaveProject} />
+            {projects.map((project: IProject) => (
+              <ProjectItem
+                key={project._id}
+                project={project}
+                deleteProject={handleDeleteProject}
+              />
+            ))}
           </Box>
           <Box flex="1" padding={6}>
             <Heading as="h1" marginBottom={6}>

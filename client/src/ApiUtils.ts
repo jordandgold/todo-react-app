@@ -13,3 +13,15 @@ export function createTodoDTO(partial: Partial<ITodo>): ITodo {
     ...partial,
   };
 }
+
+export const DEFAULT_PROJECT_DTO: IProject = {
+  _id: "",
+  name: "",
+};
+
+export function createProjectDTO(partial: Partial<IProject>): IProject {
+  return {
+    ...DEFAULT_PROJECT_DTO,
+    ...partial,
+  };
+}

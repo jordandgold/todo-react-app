@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProjects = void 0;
+exports.deleteProject = exports.addProject = exports.getProjects = void 0;
 const project_1 = __importDefault(require("../models/project"));
 const getProjects = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -24,3 +24,37 @@ const getProjects = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getProjects = getProjects;
+const addProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const body = req.body;
+        const project = new project_1.default({
+            name: body.name,
+        });
+        const newProject = yield project.save();
+        const allProjects = yield project_1.default.find();
+        res.status(201).json({
+            message: "Project added",
+            project: newProject,
+            projects: allProjects,
+        });
+    }
+    catch (error) {
+        throw error;
+    }
+});
+exports.addProject = addProject;
+const deleteProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const deletedProject = yield project_1.default.findByIdAndRemove(req.params.id);
+        const allProjects = yield project_1.default.find();
+        res.status(200).json({
+            message: "Project deleted",
+            project: deletedProject,
+            projects: allProjects,
+        });
+    }
+    catch (error) {
+        throw error;
+    }
+});
+exports.deleteProject = deleteProject;
