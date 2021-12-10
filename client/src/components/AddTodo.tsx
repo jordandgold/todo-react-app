@@ -4,10 +4,11 @@ import { createTodoDTO } from "../ApiUtils";
 
 interface IAddToDoProps {
   saveTodo: (event: FormEvent, formData: ITodo | any) => void;
+  projectId: string;
 }
 
-const AddTodo: React.FC<IAddToDoProps> = ({ saveTodo }) => {
-  const [formData, setFormData] = useState<ITodo>(createTodoDTO({}));
+const AddTodo: React.FC<IAddToDoProps> = ({ saveTodo, projectId }) => {
+  const [formData, setFormData] = useState<ITodo>(createTodoDTO({ projectId }));
 
   const handleInputChange = (
     event: React.FormEvent<HTMLInputElement>

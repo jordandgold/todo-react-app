@@ -17,6 +17,11 @@ const todoSchema: Schema = new Schema(
       type: Boolean,
       required: true,
     },
+
+    projectId: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

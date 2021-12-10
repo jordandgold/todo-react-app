@@ -11,6 +11,18 @@ const getTodos = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const getTodosByProjectId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const todos: ITodo[] = await Todo.find({ project: req.params.id });
+    res.status(200).json({ todos });
+  } catch (error) {
+    throw error;
+  }
+};
+
 const addTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const body = req.body as Pick<ITodo, "name" | "description" | "status">;
@@ -69,4 +81,4 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { getTodos, addTodo, updateTodo, deleteTodo };
+export { getTodos, getTodosByProjectId, addTodo, updateTodo, deleteTodo };

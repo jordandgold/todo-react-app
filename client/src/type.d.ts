@@ -3,6 +3,7 @@ interface ITodo {
   name: string;
   description: string;
   status: boolean;
+  projectId: string;
   createdAt?: string;
   updatedAt?: string;
 }

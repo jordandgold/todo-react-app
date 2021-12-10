@@ -13,21 +13,34 @@ import {
 import AddProject from "./components/AddProject";
 import ProjectsList from "./components/ProjectsList";
 import ProjectItem from "./components/ProjectItem";
+import TodosList from "./components/TodosList";
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [projects, setProjects] = useState<IProject[]>([]);
-  // const [currentProject, setCurrentProject] = useState<IProject | null>(null);
+  const [currentProject, setCurrentProject] = useState<IProject | null>(null);
 
   useEffect(() => {
     fetchProjects();
-    fetchTodos();
   }, []);
 
-  const fetchProjects = (): void => {
-    Api.getProjects()
-      .then(({ data: { projects } }: IProject[] | any) => setProjects(projects))
-      .catch((err: Error) => console.log(err));
+  const fetchProjects = async () => {
+    const response = await Api.getProjects();
+
+    setProjects(response.data.projects);
+    setCurrentProject(response.data.projects[0]);
+    // Api.getProjects()
+    //   .then(({ data: { projects } }: IProject[] | any) => setProjects(projects))
+    //   .catch((err: Error) => console.log(err));
+  };
+
+  const handleChangeProject = async (project: IProject) => {
+    // set selected project
+    setCurrentProject(project);
+
+    // fetch todos
+    const response = await Api.getTodosByProjectId(project._id);
+    setTodos(response.data.todos);
   };
 
   const handleSaveProject = (
@@ -63,41 +76,6 @@ const App: React.FC = () => {
       .catch((err: Error) => console.log(err));
   };
 
-  const handleSaveTodo = (event: React.FormEvent, formData: ITodo): void => {
-    event.preventDefault();
-
-    Api.addTodo(formData)
-      .then(({ status, data }) => {
-        if (status !== 201) {
-          throw new Error("Error! Todo not saved");
-        }
-        setTodos(data.todos);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const handleUpdateTodo = (todo: ITodo): void => {
-    Api.updateTodo(todo)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error("Error! Todo not updated");
-        }
-        setTodos(data.todos);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const handleDeleteTodo = (_id: string): void => {
-    Api.deleteTodo(_id)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error("Error! Todo not deleted");
-        }
-        setTodos(data.todos);
-      })
-      .catch((err) => console.log(err));
-  };
-
   return (
     <ChakraProvider>
       <main className="App">
@@ -115,6 +93,7 @@ const App: React.FC = () => {
                 key={project._id}
                 project={project}
                 deleteProject={handleDeleteProject}
+                changeProject={handleChangeProject}
               />
             ))}
           </Box>
@@ -126,15 +105,13 @@ const App: React.FC = () => {
               divider={<StackDivider borderColor="gray.200" />}
               spacing={4}
             >
-              <AddTodo saveTodo={handleSaveTodo} />
-              {todos.map((todo: ITodo) => (
-                <TodoItem
-                  key={todo._id}
-                  updateTodo={handleUpdateTodo}
-                  deleteTodo={handleDeleteTodo}
-                  todo={todo}
+              {currentProject && (
+                <TodosList
+                  project={currentProject}
+                  todos={todos}
+                  setTodos={setTodos}
                 />
-              ))}
+              )}
             </Stack>
           </Box>
         </Flex>

@@ -3,6 +3,7 @@ export const DEFAULT_TODO_DTO: ITodo = {
   name: "",
   description: "",
   status: false,
+  projectId: "",
   createdAt: "",
   updatedAt: "",
 };

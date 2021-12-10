@@ -11,6 +11,19 @@ export const getTodos = async (): Promise<AxiosResponse<TodoApiDataType>> => {
   }
 };
 
+export const getTodosByProjectId = async (
+  projectId: string
+): Promise<AxiosResponse<TodoApiDataType>> => {
+  try {
+    const todos: AxiosResponse<TodoApiDataType> = await axios.get(
+      process.env.REACT_APP_API_BASE_URL + `/todos/getByProjectId/${projectId}`
+    );
+    return todos;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
 export const addTodo = async (
   formData: ITodo
 ): Promise<AxiosResponse<TodoApiDataType>> => {
@@ -19,6 +32,7 @@ export const addTodo = async (
       name: formData.name,
       description: formData.description,
       status: false,
+      projectId: formData.projectId,
     };
     const saveTodo: AxiosResponse<TodoApiDataType> = await axios.post(
       process.env.REACT_APP_API_BASE_URL + "/todos/add",

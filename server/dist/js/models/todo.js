@@ -14,5 +14,9 @@ const todoSchema = new mongoose_1.Schema({
         type: Boolean,
         required: true,
     },
+    projectId: {
+        type: String,
+        required: true,
+    },
 }, { timestamps: true });
 exports.default = (0, mongoose_1.model)("Todo", todoSchema);

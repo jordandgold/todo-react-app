@@ -5,12 +5,19 @@ import React from "react";
 
 type Props = ProjectProps & {
   deleteProject: (_id: string) => void;
+  changeProject: (project: IProject) => void;
 };
 
-const ProjectItem: React.FC<Props> = ({ project, deleteProject }) => {
+const ProjectItem: React.FC<Props> = ({
+  project,
+  changeProject,
+  deleteProject,
+}) => {
   return (
     <Box width="100%">
-      {project.name}
+      <Button bg="transparent" onClick={() => changeProject(project)}>
+        {project.name}
+      </Button>
       <Button
         onClick={() => deleteProject(project._id)}
         colorScheme="red"

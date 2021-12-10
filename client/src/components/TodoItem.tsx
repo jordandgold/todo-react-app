@@ -8,7 +8,7 @@ type Props = TodoProps & {
   deleteTodo: (_id: string) => void;
 };
 
-const Todo: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
+const TodoItem: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
   const isCompleted = todo.status;
 
   return (
@@ -42,4 +42,4 @@ const Todo: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
   );
 };
 
-export default Todo;
+export default TodoItem;
