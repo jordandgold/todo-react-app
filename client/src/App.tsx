@@ -19,6 +19,7 @@ const App: React.FC = () => {
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [projects, setProjects] = useState<IProject[]>([]);
   const [currentProject, setCurrentProject] = useState<IProject | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     fetchProjects();
@@ -28,54 +29,35 @@ const App: React.FC = () => {
     const response = await Api.getProjects();
 
     setProjects(response.data.projects);
-    setCurrentProject(response.data.projects[0]);
+    // setCurrentProject(response.data.projects[0]);
 
     await Api.getTodosByProjectId(response.data.projects[0]._id);
-    // Api.getProjects()
-    //   .then(({ data: { projects } }: IProject[] | any) => setProjects(projects))
-    //   .catch((err: Error) => console.log(err));
   };
 
   const handleChangeProject = async (project: IProject) => {
-    // set selected project
+    setIsLoading(true);
     setCurrentProject(project);
 
     // fetch todos
     const response = await Api.getTodosByProjectId(project._id);
     setTodos(response.data.todos);
+    setIsLoading(false);
   };
 
-  const handleSaveProject = (
+  const handleSaveProject = async (
     event: React.FormEvent,
     formData: IProject
-  ): void => {
+  ) => {
     event.preventDefault();
+    const response = await Api.addProject(formData);
 
-    Api.addProject(formData)
-      .then(({ status, data }) => {
-        if (status !== 201) {
-          throw new Error("Error! Project not saved");
-        }
-        setProjects(data.projects);
-      })
-      .catch((err) => console.log(err));
+    setProjects(response.data.projects);
   };
 
-  const handleDeleteProject = (_id: string): void => {
-    Api.deleteProject(_id)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error("Error! Project not deleted");
-        }
-        setProjects(data.projects);
-      })
-      .catch((err) => console.log(err));
-  };
+  const handleDeleteProject = async (_id: string) => {
+    const response = await Api.deleteProject(_id);
 
-  const fetchTodos = (): void => {
-    Api.getTodos()
-      .then(({ data: { todos } }: ITodo[] | any) => setTodos(todos))
-      .catch((err: Error) => console.log(err));
+    setProjects(response.data.projects);
   };
 
   return (
@@ -100,19 +82,18 @@ const App: React.FC = () => {
             ))}
           </Box>
           <Box flex="1" padding={6}>
-            <Heading as="h1" marginBottom={6}>
-              My Todos
-            </Heading>
             <Stack
               divider={<StackDivider borderColor="gray.200" />}
               spacing={4}
             >
-              {currentProject && (
+              {currentProject && !isLoading ? (
                 <TodosList
                   project={currentProject}
                   todos={todos}
                   setTodos={setTodos}
                 />
+              ) : (
+                <div>Select a project</div>
               )}
             </Stack>
           </Box>
