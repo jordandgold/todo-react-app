@@ -16,8 +16,8 @@ const getTodosByProjectId = async (
   res: Response
 ): Promise<void> => {
   try {
-    const todos: ITodo[] = await Todo.find({
-      projectId: req.params.projectId.toString(),
+    const todos: ITodo[] | null = await Todo.find({
+      projectId: req.params.id.toString(),
     });
     res.status(200).json({ todos });
   } catch (error) {

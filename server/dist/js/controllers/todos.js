@@ -27,7 +27,7 @@ exports.getTodos = getTodos;
 const getTodosByProjectId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const todos = yield todo_1.default.find({
-            projectId: req.params.projectId.toString(),
+            projectId: req.params.id.toString(),
         });
         res.status(200).json({ todos });
     }
