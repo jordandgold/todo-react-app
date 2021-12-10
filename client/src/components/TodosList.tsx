@@ -14,29 +14,11 @@ type Props = {
 };
 
 const TodosList: React.FC<Props> = ({ project, todos, setTodos }) => {
-  //   useEffect(() => {
-  //     async function fetchTodos() {
-  //       const response = await Api.getTodosByProjectId(project._id);
-  //       setTodos(response.data.todos);
-  //     }
-
-  //     fetchTodos();
-  //   });
-
-  //   const handleFetchTodos = async () => {
-  //       const response = await Api.getTodosByProjectId(project._id);
-  //       setTodos(response.data.todos);
-  //   }
-
   const handleSaveTodo = async (event: React.FormEvent, formData: ITodo) => {
     event.preventDefault();
 
-    try {
-      const response = await Api.addTodo(formData);
-      setTodos(response.data.todos);
-    } catch {
-      throw new Error("Error! Todo not saved");
-    }
+    const response = await Api.addTodo(formData);
+    setTodos(response.data.todos);
   };
 
   const handleUpdateTodo = (todo: ITodo): void => {

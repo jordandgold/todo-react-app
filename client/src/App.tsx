@@ -29,6 +29,8 @@ const App: React.FC = () => {
 
     setProjects(response.data.projects);
     setCurrentProject(response.data.projects[0]);
+
+    await Api.getTodosByProjectId(response.data.projects[0]._id);
     // Api.getProjects()
     //   .then(({ data: { projects } }: IProject[] | any) => setProjects(projects))
     //   .catch((err: Error) => console.log(err));

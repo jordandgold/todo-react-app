@@ -26,7 +26,9 @@ const getTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getTodos = getTodos;
 const getTodosByProjectId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const todos = yield todo_1.default.find({ project: req.params.id });
+        const todos = yield todo_1.default.find({
+            projectId: req.params.projectId.toString(),
+        });
         res.status(200).json({ todos });
     }
     catch (error) {
@@ -41,6 +43,7 @@ const addTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             name: body.name,
             description: body.description,
             status: body.status,
+            projectId: body.projectId,
         });
         const newTodo = yield todo.save();
         const allTodos = yield todo_1.default.find();

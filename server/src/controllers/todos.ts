@@ -16,7 +16,9 @@ const getTodosByProjectId = async (
   res: Response
 ): Promise<void> => {
   try {
-    const todos: ITodo[] = await Todo.find({ project: req.params.id });
+    const todos: ITodo[] = await Todo.find({
+      projectId: req.params.projectId.toString(),
+    });
     res.status(200).json({ todos });
   } catch (error) {
     throw error;
@@ -25,12 +27,16 @@ const getTodosByProjectId = async (
 
 const addTodo = async (req: Request, res: Response): Promise<void> => {
   try {
-    const body = req.body as Pick<ITodo, "name" | "description" | "status">;
+    const body = req.body as Pick<
+      ITodo,
+      "name" | "description" | "status" | "projectId"
+    >;
 
     const todo: ITodo = new Todo({
       name: body.name,
       description: body.description,
       status: body.status,
+      projectId: body.projectId,
     });
 
     const newTodo: ITodo = await todo.save();
