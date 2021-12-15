@@ -12,6 +12,7 @@ import {
 import AddProject from "./components/AddProject";
 import ProjectItem from "./components/ProjectItem";
 import TodosList from "./components/TodosList";
+import { createTodoDTO } from "./Api/utils/ApiUtils";
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<ITodo[]>([]);
@@ -51,7 +52,7 @@ const App: React.FC = () => {
     const response = await Api.addProject(formData);
 
     setProjects(response.data.projects);
-    setCurrentProject(response.data.project);
+    handleChangeProject(response.data.project);
   };
 
   const handleSaveTodo = async (
@@ -60,7 +61,12 @@ const App: React.FC = () => {
   ): Promise<void> => {
     event.preventDefault();
 
-    const response = await Api.addTodo(formData);
+    const response = await Api.addTodo(
+      createTodoDTO({
+        ...formData,
+        projectId: currentProject?._id,
+      })
+    );
     setTodos(response.data.todos);
   };
 

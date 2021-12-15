@@ -29,7 +29,11 @@ const AddProject: React.FC<IAddProjectProps> = ({ saveProject }) => {
   };
 
   return (
-    <form className="Form" onSubmit={(event) => handleSubmit(event)}>
+    <form
+      className="Form"
+      onSubmit={(event) => handleSubmit(event)}
+      autoComplete="off"
+    >
       <VStack spacing={4} align="stretch">
         <Box>
           <label htmlFor="name">Project Name</label>

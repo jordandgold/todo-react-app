@@ -30,7 +30,11 @@ const AddTodo: React.FC<IAddToDoProps> = ({ saveTodo, projectId }) => {
   };
 
   return (
-    <form className="Form" onSubmit={(event) => handleSubmit(event)}>
+    <form
+      className="Form"
+      onSubmit={(event) => handleSubmit(event)}
+      autoComplete="off"
+    >
       <VStack spacing={4} align="stretch">
         <Box>
           <label htmlFor="name">Name</label>
