@@ -1,10 +1,6 @@
-import { Button } from "@chakra-ui/button";
-import { Checkbox } from "@chakra-ui/checkbox";
-import { Box, Text, Flex } from "@chakra-ui/layout";
-import React, { useEffect, useState } from "react";
+import { Box, Heading, Stack, StackDivider } from "@chakra-ui/layout";
+import React from "react";
 import Api from "../Api";
-import { getTodosByProjectId } from "../Api/todos";
-import AddTodo from "./AddTodo";
 import TodoItem from "./TodoItem";
 
 type Props = {
@@ -14,47 +10,45 @@ type Props = {
 };
 
 const TodosList: React.FC<Props> = ({ project, todos, setTodos }) => {
-  const handleSaveTodo = async (event: React.FormEvent, formData: ITodo) => {
-    event.preventDefault();
+  const handleUpdateTodo = async (todo: ITodo) => {
+    const response = await Api.updateTodo(todo);
 
-    const response = await Api.addTodo(formData);
     setTodos(response.data.todos);
   };
 
-  const handleUpdateTodo = (todo: ITodo): void => {
-    Api.updateTodo(todo)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error("Error! Todo not updated");
-        }
-        setTodos(data.todos);
-      })
-      .catch((err) => console.log(err));
-  };
+  const handleDeleteTodo = async (_id: string) => {
+    const response = await Api.deleteTodo(_id);
 
-  const handleDeleteTodo = (_id: string): void => {
-    Api.deleteTodo(_id)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error("Error! Todo not deleted");
-        }
-        setTodos(data.todos);
-      })
-      .catch((err) => console.log(err));
+    setTodos(response.data.todos);
   };
 
   return (
     <Box width="100%">
-      <AddTodo saveTodo={handleSaveTodo} projectId={project._id} />
-      <h3>{project.name}</h3>
-      {todos.map((todo: ITodo) => (
-        <TodoItem
-          key={todo._id}
-          updateTodo={handleUpdateTodo}
-          deleteTodo={handleDeleteTodo}
-          todo={todo}
-        />
-      ))}
+      <Box
+        paddingTop={6}
+        paddingStart={6}
+        paddingEnd={6}
+        paddingBottom={4}
+        marginBottom={6}
+        borderBottom="1px"
+        borderColor="gray.200"
+      >
+        <Heading as="h1">{project.name}</Heading>
+      </Box>
+      <Stack
+        divider={<StackDivider borderColor="gray.200" />}
+        spacing={4}
+        height="100%"
+      >
+        {todos.map((todo: ITodo) => (
+          <TodoItem
+            key={todo._id}
+            updateTodo={handleUpdateTodo}
+            deleteTodo={handleDeleteTodo}
+            todo={todo}
+          />
+        ))}
+      </Stack>
     </Box>
   );
 };

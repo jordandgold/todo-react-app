@@ -18,7 +18,7 @@ const AddProject: React.FC<IAddProjectProps> = ({ saveProject }) => {
     });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     try {
       saveProject(event, formData);
       setFormData(createTodoDTO({}));

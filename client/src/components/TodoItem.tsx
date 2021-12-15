@@ -12,11 +12,12 @@ const TodoItem: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
   const isCompleted = todo.status;
 
   return (
-    <Box width="100%">
+    <Box width="100%" paddng={6}>
       <Flex
         direction="row"
         alignItems="start"
         className={isCompleted ? "is-completed" : ""}
+        paddingX={6}
       >
         <Checkbox
           size="lg"

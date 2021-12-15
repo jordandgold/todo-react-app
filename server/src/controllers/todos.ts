@@ -40,7 +40,9 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
     });
 
     const newTodo: ITodo = await todo.save();
-    const allTodos: ITodo[] = await Todo.find();
+    const allTodos: ITodo[] = await Todo.find({
+      projectId: body.projectId.toString(),
+    });
 
     res
       .status(201)
@@ -60,7 +62,9 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
       { _id: id },
       body
     );
-    const allTodos: ITodo[] = await Todo.find();
+    const allTodos: ITodo[] = await Todo.find({
+      projectId: body.projectId.toString(),
+    });
     res.status(200).json({
       message: "Todo updated",
       todo: updateTodo,
@@ -72,11 +76,15 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
 };
 
 const deleteTodo = async (req: Request, res: Response): Promise<void> => {
+  const todo = await Todo.findById(req.params.id);
+
   try {
     const deletedTodo: ITodo | null = await Todo.findByIdAndRemove(
       req.params.id
     );
-    const allTodos: ITodo[] = await Todo.find();
+    const allTodos: ITodo[] = await Todo.find({
+      projectId: todo?.projectId.toString(),
+    });
     res.status(200).json({
       message: "Todo deleted",
       todo: deletedTodo,

@@ -46,7 +46,9 @@ const addTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             projectId: body.projectId,
         });
         const newTodo = yield todo.save();
-        const allTodos = yield todo_1.default.find();
+        const allTodos = yield todo_1.default.find({
+            projectId: body.projectId.toString(),
+        });
         res
             .status(201)
             .json({ message: "Todo added", todo: newTodo, todos: allTodos });
@@ -60,7 +62,9 @@ const updateTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { params: { id }, body, } = req;
         const updateTodo = yield todo_1.default.findByIdAndUpdate({ _id: id }, body);
-        const allTodos = yield todo_1.default.find();
+        const allTodos = yield todo_1.default.find({
+            projectId: body.projectId.toString(),
+        });
         res.status(200).json({
             message: "Todo updated",
             todo: updateTodo,
@@ -73,9 +77,12 @@ const updateTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.updateTodo = updateTodo;
 const deleteTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const todo = yield todo_1.default.findById(req.params.id);
     try {
         const deletedTodo = yield todo_1.default.findByIdAndRemove(req.params.id);
-        const allTodos = yield todo_1.default.find();
+        const allTodos = yield todo_1.default.find({
+            projectId: todo === null || todo === void 0 ? void 0 : todo.projectId.toString(),
+        });
         res.status(200).json({
             message: "Todo deleted",
             todo: deletedTodo,
