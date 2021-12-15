@@ -1,4 +1,4 @@
-import { Box, Heading, Stack, StackDivider } from "@chakra-ui/layout";
+import { Box, Heading, Stack, StackDivider, Flex } from "@chakra-ui/layout";
 import React from "react";
 import Api from "../Api";
 import TodoItem from "./TodoItem";
@@ -40,14 +40,25 @@ const TodosList: React.FC<Props> = ({ project, todos, setTodos }) => {
         spacing={4}
         height="100%"
       >
-        {todos.map((todo: ITodo) => (
-          <TodoItem
-            key={todo._id}
-            updateTodo={handleUpdateTodo}
-            deleteTodo={handleDeleteTodo}
-            todo={todo}
-          />
-        ))}
+        {todos.length > 0 ? (
+          todos.map((todo: ITodo) => (
+            <TodoItem
+              key={todo._id}
+              updateTodo={handleUpdateTodo}
+              deleteTodo={handleDeleteTodo}
+              todo={todo}
+            />
+          ))
+        ) : (
+          <Flex
+            flexDirection="column"
+            flex={1}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Box>No todos yet</Box>
+          </Flex>
+        )}
       </Stack>
     </Box>
   );

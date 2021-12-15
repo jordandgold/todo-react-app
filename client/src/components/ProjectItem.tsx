@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/button";
-import { Checkbox } from "@chakra-ui/checkbox";
-import { Box, Text, Flex, Link } from "@chakra-ui/layout";
+import { Flex, Link } from "@chakra-ui/layout";
 import React from "react";
+import "./ProjectItem.less";
 
 type Props = ProjectProps & {
   deleteProject: (_id: string) => void;
@@ -13,20 +13,24 @@ const ProjectItem: React.FC<Props> = ({
   changeProject,
   deleteProject,
 }) => {
+  const projectItemLinkStyles = {
+    textAlign: "left",
+    background: "transparent",
+    flex: "1",
+  };
+
   return (
-    <Flex width="100%" padding={4}>
+    <Flex width="100%" padding={4} className="project-item">
       <Link
-        bg="transparent"
         variant="ghost"
         onClick={() => changeProject(project)}
-        flex={1}
-        sx={{
-          textAlign: "left",
-        }}
+        sx={{ ...projectItemLinkStyles }}
+        className="project-item__link"
       >
         {project.name}
       </Link>
       <Button
+        className="project-item__delete"
         onClick={() => deleteProject(project._id)}
         colorScheme="red"
         size="sm"

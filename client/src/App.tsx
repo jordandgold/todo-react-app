@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
-import TodoItem from "./components/TodoItem";
 import AddTodo from "./components/AddTodo";
 import Api from "./Api";
 import {
   ChakraProvider,
-  Heading,
   Box,
   Flex,
   Stack,
   StackDivider,
 } from "@chakra-ui/react";
 import AddProject from "./components/AddProject";
-import ProjectsList from "./components/ProjectsList";
 import ProjectItem from "./components/ProjectItem";
 import TodosList from "./components/TodosList";
 

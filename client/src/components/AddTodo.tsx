@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import { VStack, Box, Input, Button } from "@chakra-ui/react";
-import { createTodoDTO } from "../ApiUtils";
+import { createTodoDTO } from "../Api/utils/ApiUtils";
 
 interface IAddToDoProps {
   saveTodo: (event: FormEvent, formData: ITodo | any) => void;
