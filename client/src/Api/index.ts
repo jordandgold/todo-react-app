@@ -1,5 +1,5 @@
-import * as todosApi from "./todos";
-import * as projectsApi from "./projects";
+import * as todosApi from "./todos/todos";
+import * as projectsApi from "./projects/projects";
 
 const Api = {
   ...todosApi,

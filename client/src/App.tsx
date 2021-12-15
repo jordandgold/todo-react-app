@@ -7,6 +7,7 @@ import {
   Flex,
   Stack,
   StackDivider,
+  Heading,
 } from "@chakra-ui/react";
 import AddProject from "./components/AddProject";
 import ProjectItem from "./components/ProjectItem";
@@ -26,10 +27,6 @@ const App: React.FC = () => {
     const response = await Api.getProjects();
 
     setProjects(response.data.projects);
-
-    // Loads the first project and sets as the inital in state
-    // not sure we want this
-    // setCurrentProject(response.data.projects[0]);
 
     if (projects.length > 0) {
       await Api.getTodosByProjectId(response.data.projects[0]._id);
@@ -54,6 +51,7 @@ const App: React.FC = () => {
     const response = await Api.addProject(formData);
 
     setProjects(response.data.projects);
+    setCurrentProject(response.data.project);
   };
 
   const handleSaveTodo = async (
@@ -70,6 +68,15 @@ const App: React.FC = () => {
     const response = await Api.deleteProject(_id);
 
     setProjects(response.data.projects);
+
+    console.log("currentProject: " + JSON.stringify(currentProject));
+    console.log(
+      "response.data.project: " + JSON.stringify(response.data.project)
+    );
+
+    if (currentProject?._id === response.data.project?._id) {
+      setCurrentProject(null);
+    }
   };
 
   return (
@@ -85,14 +92,25 @@ const App: React.FC = () => {
               spacing={0}
               height="100%"
             >
-              {projects.map((project: IProject) => (
-                <ProjectItem
-                  key={project._id}
-                  project={project}
-                  deleteProject={handleDeleteProject}
-                  changeProject={handleChangeProject}
-                />
-              ))}
+              {projects.length > 0 ? (
+                projects.map((project: IProject) => (
+                  <ProjectItem
+                    key={project._id}
+                    project={project}
+                    deleteProject={handleDeleteProject}
+                    changeProject={handleChangeProject}
+                  />
+                ))
+              ) : (
+                <Flex
+                  flexDirection="column"
+                  flex={1}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Box>Add a project</Box>
+                </Flex>
+              )}
             </Stack>
           </Box>
           <Box flex="1" minHeight="100%">
@@ -103,6 +121,9 @@ const App: React.FC = () => {
               {currentProject && !isLoading ? (
                 <>
                   <Box borderBottom="1px" borderColor="gray.200" padding={6}>
+                    <Heading as="h1" marginBottom={6}>
+                      {currentProject.name}
+                    </Heading>
                     <AddTodo
                       saveTodo={handleSaveTodo}
                       projectId={currentProject._id}

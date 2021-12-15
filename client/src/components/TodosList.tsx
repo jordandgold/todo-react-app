@@ -23,18 +23,7 @@ const TodosList: React.FC<Props> = ({ project, todos, setTodos }) => {
   };
 
   return (
-    <Box width="100%">
-      <Box
-        paddingTop={6}
-        paddingStart={6}
-        paddingEnd={6}
-        paddingBottom={4}
-        marginBottom={6}
-        borderBottom="1px"
-        borderColor="gray.200"
-      >
-        <Heading as="h1">{project.name}</Heading>
-      </Box>
+    <Box width="100%" paddingTop={6}>
       <Stack
         divider={<StackDivider borderColor="gray.200" />}
         spacing={4}
@@ -56,7 +45,7 @@ const TodosList: React.FC<Props> = ({ project, todos, setTodos }) => {
             alignItems="center"
             justifyContent="center"
           >
-            <Box>No todos yet</Box>
+            <Box padding={16}>No todos yet</Box>
           </Flex>
         )}
       </Stack>

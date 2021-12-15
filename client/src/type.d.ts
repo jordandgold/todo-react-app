@@ -34,3 +34,10 @@ type ProjectApiDataType = {
   projects: IProject[];
   project?: IProject;
 };
+
+type ProjectAddDTO = {
+  message: string;
+  status: string;
+  projects: IProject[];
+  project: IProject;
+};

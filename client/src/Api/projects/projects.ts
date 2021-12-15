@@ -15,12 +15,12 @@ export const getProjects = async (): Promise<
 
 export const addProject = async (
   formData: IProject
-): Promise<AxiosResponse<ProjectApiDataType>> => {
+): Promise<AxiosResponse<ProjectAddDTO>> => {
   try {
     const project: Omit<IProject, "_id"> = {
       name: formData.name,
     };
-    const saveProject: AxiosResponse<ProjectApiDataType> = await axios.post(
+    const saveProject: AxiosResponse<ProjectAddDTO> = await axios.post(
       process.env.REACT_APP_API_BASE_URL + "/projects/add",
       project
     );
