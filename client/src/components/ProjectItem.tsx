@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/button";
 import { Flex, Link } from "@chakra-ui/layout";
 import React from "react";
-import "./ProjectItem.less";
+import "./ProjectItem.scss";
 
 type Props = ProjectProps & {
   deleteProject: (_id: string) => void;
