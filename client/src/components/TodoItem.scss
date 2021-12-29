@@ -1,4 +1,4 @@
-.project-item {
+.todo-item {
   position: relative;
 
   &__delete {
@@ -8,7 +8,7 @@
   }
 
   &:hover {
-    .project-item__delete {
+    .todo-item__delete {
       display: inline-block;
     }
   }

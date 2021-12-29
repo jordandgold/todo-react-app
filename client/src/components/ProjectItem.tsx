@@ -29,14 +29,15 @@ const ProjectItem: React.FC<Props> = ({
       >
         {project.name}
       </Link>
-      <Button
-        className="project-item__delete"
-        onClick={() => deleteProject(project._id)}
-        colorScheme="red"
-        size="sm"
-      >
-        Delete
-      </Button>
+      <div className="project-item__delete">
+        <Button
+          onClick={() => deleteProject(project._id)}
+          colorScheme="red"
+          size="xs"
+        >
+          Delete
+        </Button>
+      </div>
     </Flex>
   );
 };
